@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /output_models/
+/RETRAINAI-Retrain.aiInterviewAssignment-MLEngineer-090521-1525.pdf
+/data/output_models/

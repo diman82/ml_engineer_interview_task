@@ -1,0 +1,38 @@
+version: '3'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  data_preparation:
+    build:
+      context: ./data_preparation
+      dockerfile: Dockerfile
+    command: [ "python", "main.py"]
+    volumes:
+      - ./data:/data
+    networks:
+      - app-tier
+  model_training:
+    build:
+      context: ./model_training
+      dockerfile: Dockerfile
+    command: [ "python", "main.py" ]
+    volumes:
+      - ./data:/data
+    depends_on:
+      - data_preparation
+    networks:
+      - app-tier
+  model_testing:
+    build:
+      context: ./model_testing
+      dockerfile: Dockerfile
+    command: [ "python", "main.py" ]
+    volumes:
+      - ./data:/data
+    depends_on:
+      - model_training
+    networks:
+      - app-tier
