@@ -11,7 +11,10 @@ services:
       dockerfile: Dockerfile
     command: [ "python", "main.py"]
     volumes:
-      - ./data:/data
+     - type: bind
+       source: ./data
+       target: /data
+       read_only: false
     networks:
       - app-tier
   model_training:
@@ -20,9 +23,13 @@ services:
       dockerfile: Dockerfile
     command: [ "python", "main.py" ]
     volumes:
-      - ./data:/data
+     - type: bind
+       source: ./data
+       target: /data
+       read_only: false
     depends_on:
-      - data_preparation
+      data_preparation:
+        condition: service_completed_successfully
     networks:
       - app-tier
   model_testing:
@@ -31,8 +38,12 @@ services:
       dockerfile: Dockerfile
     command: [ "python", "main.py" ]
     volumes:
-      - ./data:/data
+     - type: bind
+       source: ./data
+       target: /data
+       read_only: false
     depends_on:
-      - model_training
+      model_training:
+        condition: service_completed_successfully
     networks:
       - app-tier

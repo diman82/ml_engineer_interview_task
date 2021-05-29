@@ -4,9 +4,9 @@ from sentence_transformers import SentenceTransformer, InputExample, losses, mod
 
 
 def main():
-    base_path = './data'
+    base_path = '/data'
     input_path = os.path.join(base_path, 'input_data')
-    output_models_path = os.path.join('./data', 'output_models')
+    output_models_path = os.path.join(base_path, 'output_models')
     latest_folder = max(glob.glob(os.path.join(output_models_path, '*/')), key=os.path.getmtime)
     latest_model_path = os.path.join(base_path, latest_folder)
 
